@@ -1,6 +1,8 @@
 <template>
   <div v-if="user">
-    {{ this.user }}
+    <ProjectCard></ProjectCard>
+    <ProjectCard></ProjectCard>
+    <ProjectCard></ProjectCard>
   </div>
   <div v-else>
     Loading...
@@ -11,10 +13,20 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { firebase } from '../lib/firebase'
 import User from '../model/user'
+import ProjectCard from '@/components/ProjectCard.vue'
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
+
+Vue.use(VueMaterial)
 
 const provider = new firebase.auth.GithubAuthProvider()
 
-@Component
+@Component({
+  components: {
+  ProjectCard,
+  }
+  })
+
 export default class Projects extends Vue {
   user: User | null = null
 
