@@ -19,3 +19,8 @@ yarn run build
 ```
 yarn run lint
 ```
+
+### deploy
+```
+yarn run firebase deploy
+```

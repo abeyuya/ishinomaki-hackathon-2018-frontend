@@ -20,6 +20,7 @@
     "@vue/cli-service": "^3.0.1",
     "@vue/eslint-config-standard": "^3.0.1",
     "@vue/eslint-config-typescript": "^3.0.1",
+    "firebase-tools": "^4.1.1",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
     "typescript": "^3.0.0",
