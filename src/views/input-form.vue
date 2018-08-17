@@ -37,6 +37,7 @@
                 必要な技術 <span><input v-model="skills"></span>
             </p>
         </div>
+        <button @click="join">登録</button>
     </div>
 </template>
 
