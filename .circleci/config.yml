@@ -27,10 +27,8 @@ jobs:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
       - run: yarn install
-      - run:
-          name: deploy to firebase
-          command: |
-            yarn run firebase deploy --token "$FIREBASE_TOKEN"
+      - run: yarn run build
+      - run: yarn run deploy:ci
 
 workflows:
   version: 2
