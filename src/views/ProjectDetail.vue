@@ -1,5 +1,4 @@
 <template>
-
   <div v-if="user">
     <div class="project">
         <div class="project_detail">
@@ -27,7 +26,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import { db, firebase } from '../lib/firebase'
 import User from '../model/user'
 import Project from '../model/project'
-import Projects from '@/views/Projects.vue';
+import Projects from '@/views/Projects.vue'
 
 @Component
 export default class ProjectDetail extends Vue {
@@ -51,14 +50,14 @@ export default class ProjectDetail extends Vue {
 
         this.project = await Project.findByProjectId(project_id)
         console.log(this.project)
-          try {
-              this.project_title = this.project.title || ''
-              this.owner_name = this.project.owner.name || ''
-              this.overview = this.project.overview || ''
-              this.need_skills = this.project.need_skills || ''
-          } catch (e) {
-              this.project = null
-          }
+        try {
+          this.project_title = this.project.title || ''
+          this.owner_name = (this.project.owner && this.project.owner.name) || ''
+          this.overview = this.project.overview || ''
+          this.need_skills = this.project.need_skills || ''
+        } catch (e) {
+          this.project = null
+        }
       } else {
         this.user = null
       }
@@ -76,7 +75,6 @@ export default class ProjectDetail extends Vue {
   }
 }
 </script>
-
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
