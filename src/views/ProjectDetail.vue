@@ -22,9 +22,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { firebase } from '../lib/firebase'
+import { db, firebase } from '../lib/firebase'
 import User from '../model/user'
 import Project from '../model/project'
+import Projects from '@/views/Projects.vue';
 
 @Component
 export default class ProjectDetail extends Vue {
@@ -44,15 +45,19 @@ export default class ProjectDetail extends Vue {
     firebase.auth().onAuthStateChanged(async (user) => {
       if (user) {
         this.user = await User.findByUid(user.uid)
-        try {
-          this.project = await Project.findByOwner(user.uid)
-          this.project_title = this.project.title || ''
-          this.owner_name = this.project.owner.name || ''
-          this.overview = this.project.overview || ''
-          this.need_skills = this.project.need_skills || ''
+        let project_id = this.$route.query.project_id
 
-        } catch (e) {
-          this.project = null
+        this.project = await Project.findByProjectId(project_id)
+        console.log(this.project)
+        if (this.project) {
+            try {
+                this.project_title = this.project.title || ''
+                this.owner_name = this.project.owner.name || ''
+                this.overview = this.project.overview || ''
+                this.need_skills = this.project.need_skills || ''
+            } catch (e) {
+                this.project = null
+            }
         }
       } else {
         this.user = null
@@ -69,39 +74,6 @@ export default class ProjectDetail extends Vue {
     }
     console.log('保存しました todo: トーストみたいなので表示したい')
   }
-
-//   private async saveProfile () {
-//     if (this.user === null) { return }
-//     await this.db.collection('users').doc(`${this.user.uid}`).set({
-//       name: this.user_name,
-//       photo_url: this.photo_url,
-//       nickname: this.nickname,
-//       role: this.role,
-//       skill: this.skill,
-//       organization: this.organization,
-//       purpose: this.purpose,
-//       note: this.note
-//     }, { merge: true })
-//   }
-
-//   private async saveProject () {
-//     if (this.user === null) { return }
-//     if (this.project === null) {
-//       await this.db.collection('projects').add({
-//         title: this.title,
-//         overview: this.overview,
-//         need_skills: this.need_skills,
-//         owner: Object.assign({}, this.user)
-//       })
-//     } else {
-//       await this.db.collection('projects').doc(this.project.uid).set({
-//         title: this.title,
-//         overview: this.overview,
-//         need_skills: this.need_skills,
-//         owner: Object.assign({}, this.user)
-//       }, { merge: true })
-//     }
-//   }
 }
 
 </script>
