@@ -6,14 +6,16 @@
           <img :src="project.owner.photo_url">
         </md-card-media>
         <md-card-header-text>
-          <div class="md-title">{{ project.title }}</div>
+          <div class="flexbox_title">
+            <div class="md-title">{{ project.title }}</div>
+          </div>
         </md-card-header-text>
       </md-card-header>
       <md-card-content>
         <h3 class="md-overviewd">概要</h3>
-        {{ project.overview }}
+        <p>{{ project.overview }}</p>
         <h3 class="md-skills">想定している技術</h3>
-        <p>{{ project.need_skills }}</p>
+        <p class="need_skills">{{ project.need_skills }}</p>
         <div v-for="member in project.members" :key="member.uid">
           <md-icon>{{ member }}</md-icon>
         </div>
@@ -47,14 +49,58 @@ export default class ProjectCard extends Vue {
 </script>
 
 <style lang="scss" scoped>
+
+  .md-title {
+    color: #52B574;
+    font-weight: 900;
+    font-size: 19px;
+    text-align: center;
+  }
+
+  h3 {
+    color: #52B574;
+    font-weight: 500;
+    margin: 10px 0 0;
+    font-size: 13px;
+  }
+
+  h2.owner_name {
+    font-weight: 200;
+    margin: 10px 0 0;
+  }
+
+  p {
+    color: #B4B4B4;
+  }
+
+  p.need_skills {
+    font-weight: 300;
+    border: 1px solid #B1EAD3;
+    border-style: none none solid none;
+    padding: 0px 0px 10px 0px;
+    width: 100%
+  }
+
+  .flexbox_title {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: stretch;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+  }
+
   .md-card {
     width: 440px;
     margin: 4px;
     display: inline-block;
     vertical-align: top;
+    padding: 0px 0px 20px;
   }
   .md-button {
     color: white;
-    background-color: #FF8856;
+    background-color: #F3933D;
   }
 </style>
