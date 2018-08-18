@@ -4,7 +4,18 @@
         <div class="project_detail">
             <h1 class="title">{{project_title}}</h1>
             <h2 class="owner_name">{{owner_name}}</h2>
-            <md-button class="join" @click="join">Join</md-button>
+            <div v-if="joinEnable(project)">
+              <md-button
+                class="join"
+                @click="join"
+              >
+                Join
+              </md-button>
+            </div>
+            <div v-else>
+              todo: joinできないよ
+            </div>
+
             <h2>概要</h2>
             <p>{{overview}}</p>
             <h2>想定している技術</h2>
@@ -12,7 +23,17 @@
               <p class="need_skills">{{need_skills}}</p>
             </div>
             <h2>メンバー</h2>
-            <md-button class="join" @click="join">Join</md-button>
+            <div v-if="joinEnable(project)">
+              <md-button
+                class="join"
+                @click="join"
+              >
+                Join
+              </md-button>
+            </div>
+            <div v-else>
+              todo: joinできないよ
+            </div>
         </div>
     </div>
   </div>
@@ -46,22 +67,37 @@ export default class ProjectDetail extends Vue {
     firebase.auth().onAuthStateChanged(async (user) => {
       if (user) {
         this.user = await User.findByUid(user.uid)
-        let project_id = this.$route.query.project_id
-
-        this.project = await Project.findByProjectId(project_id)
-        console.log(this.project)
-        try {
-          this.project_title = this.project.title || ''
-          this.owner_name = (this.project.owner && this.project.owner.name) || ''
-          this.overview = this.project.overview || ''
-          this.need_skills = this.project.need_skills || ''
-        } catch (e) {
-          this.project = null
-        }
+        db.collection('users').doc(this.user.uid).onSnapshot((doc) => {
+          const data= doc.data()
+          if (data) {
+            this.user = new User(data)
+          }
+        });
       } else {
         this.user = null
       }
     })
+
+    const project_id = this.$route.query.project_id
+    db.collection('projects').doc(project_id).onSnapshot((doc) => {
+      const data = doc.data()
+      if (data) {
+        this.project = new Project(data)
+        this.project_title = data.title || ''
+        this.owner_name = (data.owner && data.owner.name) || ''
+        this.overview = data.overview || ''
+        this.need_skills = data.need_skills || ''
+      }
+    });
+  }
+
+  joinEnable (project: Project): boolean {
+    const user = this.user
+    if (!user) { return false }
+    if (!project.members) { return true }
+
+    const exist = project.members.find((m) => m.uid === user.uid)
+    return !exist
   }
 
   async join (): Promise<void> {
@@ -71,6 +107,8 @@ export default class ProjectDetail extends Vue {
     if (this.user.uid === undefined) {
       return alert('ログインしてください')
     }
+    if (!this.project || !this.project.uid) { return }
+    this.user.joinProject(this.project.uid)
     console.log('保存しました todo: トーストみたいなので表示したい')
   }
 }
