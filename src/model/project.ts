@@ -58,21 +58,20 @@ export default class Project {
     return new Project(data)
   }
 
-  public static async findByProjectId(project_id: string): Promise<Project> {
-    const ref = await db.collection("projects").doc(project_id)
+  public static async findByProjectId (project_id: string): Promise<Project> {
+    const ref = await db.collection('projects').doc(project_id)
     const doc = await ref.get()
 
     if (doc.exists) {
       var data = doc.data()
       if (data) {
         return new Project(data)
-      }
-      else {
+      } else {
         throw new Error('projectが見つかりませんでした')
       }
     } else {
       // doc.data() will be undefined in this case
-      console.log("No such document!");
+      console.log('No such document!')
       throw new Error('projectが見つかりませんでした')
     }
   }

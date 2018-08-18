@@ -27,7 +27,7 @@
           Join
         </md-button>
       </div>
-      <div v-else="joinEnable">
+      <div v-else>
         todo: disableボタン
       </div>
     </md-card>
