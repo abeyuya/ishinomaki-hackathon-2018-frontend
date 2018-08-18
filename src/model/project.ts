@@ -24,6 +24,17 @@ export default class Project {
     }
   }
 
+  public static async all (): Promise<Project[]> {
+    const result = await db.collection('projects').get()
+    const docs: any[] = []
+    result.forEach((r) => {
+      const obj = r.data()
+      obj.uid = r.id
+      docs.push(obj)
+    })
+    return docs.map((doc) => new Project(doc))
+  }
+
   public static async create (param: { owner: User }): Promise<Project> {
     const project = new Project(param)
     const obj = Object.assign({}, project)
