@@ -51,12 +51,15 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { firebase } from '../lib/firebase'
 import User from '../model/user'
+import Project from '../model/project'
 
 @Component
 export default class Profile extends Vue {
   user: User | null = null
+  project: Project | null = null
   db = firebase.firestore()
 
+  /* eslint-disable */
   protected name = '';
   protected user_id = '';
   protected nickname = '';
@@ -68,12 +71,18 @@ export default class Profile extends Vue {
   protected title = '';
   protected overview = '';
   protected need_skills = '';
+  /* eslint-enable */
 
   created () {
     firebase.auth().onAuthStateChanged(async (user) => {
       if (user) {
         this.user = await User.findByUid(user.uid)
-        this.user.uid = user.uid
+
+        try {
+          this.project = await Project.findByOwner(user.uid)
+        } catch (e) {
+          this.project = null
+        }
       } else {
         this.user = null
       }
@@ -81,27 +90,48 @@ export default class Profile extends Vue {
   }
 
   async join (): Promise<void> {
-    if (this.user == null) {
-        return
+    if (this.user === null) {
+      return
     }
-    if (this.user.uid == undefined) {
-        return alert('ログインしてください')
+    if (this.user.uid === undefined) {
+      return alert('ログインしてください')
     }
-    this.db.collection('users').doc(`${this.user.uid}`).set({
+
+    this.saveProfile()
+    this.saveProject()
+    console.log('保存しました todo: トーストみたいなので表示したい')
+  }
+
+  private async saveProfile () {
+    if (this.user === null) { return }
+    await this.db.collection('users').doc(`${this.user.uid}`).set({
       name: this.name,
       nickname: this.nickname,
       role: this.role,
       skill: this.skill,
       organization: this.organization,
       purpose: this.purpose,
-      note: this.note,
-    })
-    .then(function() {
-        return alert("Document successfully written!");
-    })
-    .catch(function(error) {
-        return alert(`Error writing document: \n${error}`);
-    });
+      note: this.note
+    }, { merge: true })
+  }
+
+  private async saveProject () {
+    if (this.user === null) { return }
+    if (this.project === null) {
+      await this.db.collection('projects').add({
+        title: this.title,
+        overview: this.overview,
+        need_skills: this.need_skills,
+        owner: Object.assign({}, this.user)
+      })
+    } else {
+      await this.db.collection('projects').doc(this.project.uid).set({
+        title: this.title,
+        overview: this.overview,
+        need_skills: this.need_skills,
+        owner: Object.assign({}, this.user)
+      }, { merge: true })
+    }
   }
 }
 
