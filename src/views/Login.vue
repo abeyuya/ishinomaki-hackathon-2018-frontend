@@ -48,10 +48,6 @@ export default class Login extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  header{
-    height: 4rem;
-    background-color: #33CC66;
-  }
   h1{
     color:#33CC66;
     font-size: 5rem;
