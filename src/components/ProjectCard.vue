@@ -29,8 +29,12 @@
           Join
         </md-button>
       </div>
-      <div v-else>
-        todo: disableボタン
+      <div v-else><md-button
+          class="md-raised md-disable"
+          :disabled="true"          
+        >
+          Joined
+        </md-button>
       </div>
     </md-card>
   </div>
@@ -103,4 +107,16 @@ export default class ProjectCard extends Vue {
     color: white;
     background-color: #F3933D;
   }
+  .md-disable {
+    color: white;
+    background-color: #b4b4b4;
+    cursor: text;
+  }
+  .md-disable :hover {
+    background-color: #b4b4b4;
+  }
+  .md-button:before{
+    transition: none;
+  }
+
 </style>
