@@ -3,7 +3,7 @@
     <div v-for="project in projects" :key="project.uid">
       <ProjectCard
         :project="project"
-        :joinEnable="true"
+        :joinEnable="joinEnable(project)"
         :onClickJoin="onClickJoin"
       />
     </div>
@@ -48,8 +48,16 @@ export default class Projects extends Vue {
     })
   }
 
-  onClickJoin () {
-    console.log('onClickJoin.props')
+  joinEnable (project: Project): boolean {
+    if (!project.members) {
+      return true
+    }
+
+    const exist = project.members.find((m) => m.uid === user.uid)
+    return exist ? true : false
+  }
+
+  onClickJoin (project: Project) {
   }
 }
 </script>

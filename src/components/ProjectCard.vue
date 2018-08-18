@@ -21,7 +21,7 @@
       <md-button
         class="md-raised"
         :disabled="!joinEnable"
-        @click.native="onClickJoin"
+        @click.native="() => onClickJoin(project)"
       >
         Join
       </md-button>

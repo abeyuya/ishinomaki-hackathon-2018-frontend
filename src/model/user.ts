@@ -12,6 +12,7 @@ export default class User {
   organization?: string;
   purpose?: string;
   note?: string;
+  join_project_uid?: string;
   /* eslint-enable */
 
   constructor (json: firebase.firestore.DocumentData) {
@@ -31,5 +32,9 @@ export default class User {
 
     if (!data) { throw new Error('userが見つかりませんでした') }
     return new User(data)
+  }
+
+  public joinProject (projectUid: string) {
+
   }
 }
