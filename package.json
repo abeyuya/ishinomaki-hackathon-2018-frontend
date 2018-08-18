@@ -9,6 +9,7 @@
     "deploy:ci": "firebase deploy --token $FIREBASE_TOKEN"
   },
   "dependencies": {
+    "firebase": "^5.4.0",
     "vue": "^2.5.17",
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^7.0.0",
