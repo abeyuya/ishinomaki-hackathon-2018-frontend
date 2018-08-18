@@ -58,7 +58,7 @@ export default class Project {
     return new Project(data)
   }
 
-  public static async findByProjectId(project_id: string): Promise<any> {
+  public static async findByProjectId(project_id: string): Promise<Project> {
     const ref = await db.collection("projects").doc(project_id)
     const doc = await ref.get()
 
