@@ -1,6 +1,9 @@
 <template>
   <div class="project">
     <div class="project_detail">
+      <md-avatar class="md-large">
+        <img :src="project.owner.photo_url">
+      </md-avatar>
       <h1 class="title">{{project_title}}</h1>
       <h2 class="owner_name">{{owner_name}}</h2>
       <JoinButton
@@ -11,10 +14,13 @@
       <h2>概要</h2>
       <p>{{overview}}</p>
       <h2>想定している技術</h2>
-      <div class="flexbox">
+      <div class="skill_box">
         <p class="need_skills">{{need_skills}}</p>
       </div>
       <h2>メンバー</h2>
+      <md-avatar class="member_icon" v-for="member in project.members" :key="member.uid">
+          <img :src="member.photo_url">
+      </md-avatar>
       <JoinButton
         :joinEnable="joinEnable()"
         :onClickJoin="join"
@@ -132,7 +138,7 @@ export default class ProjectDetail extends Vue {
     padding: 0px 0px 10px 0px;
   }
 
-  .flexbox {
+  .skill_box {
     display: -webkit-flex;
     display: flex;
     -webkit-justify-content: center;
@@ -148,5 +154,12 @@ export default class ProjectDetail extends Vue {
     width: 40vw;
     height: 48px;
     margin: 40px 0px 0px 0px;
+  }
+
+  .md-avatar{
+    margin-top: 2rem;
+  }
+  .member_icon{
+    margin-bottom: 2rem;
   }
 </style>
