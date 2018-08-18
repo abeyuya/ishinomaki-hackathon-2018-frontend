@@ -78,7 +78,6 @@ export default class Profile extends Vue {
     firebase.auth().onAuthStateChanged(async (user) => {
       if (user) {
         this.user = await User.findByUid(user.uid)
-        this.user.uid = user.uid
         this.photo_url = user.photoURL || ''
 
         try {

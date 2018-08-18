@@ -35,9 +35,11 @@ export default class Project {
     const result = await db.collection('projects')
       .where('owner.uid', '==', uid)
       .get()
-    const docs: firebase.firestore.DocumentData[] = []
+    const docs: any[] = []
     result.forEach((r) => {
-      docs.push(r.data())
+      const obj = r.data()
+      obj.uid = r.id
+      docs.push(obj)
     })
     const data = docs[0]
 
