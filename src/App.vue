@@ -1,26 +1,29 @@
 <template>
   <div id="container">
-    <header>
-        <div id="nav-drawer">
-            <input id="nav-input" type="checkbox" class="nav-unshown">
-            <label id="nav-open" for="nav-input"><span></span></label>
-            <label class="nav-unshown" id="nav-close" for="nav-input"></label>
-            <div id="nav-content">
-              <router-link tag="a" to="/login">
-                <p>login</p>
-              </router-link>
-              <router-link tag="a" to="/logout">
-                <p>logout</p>
-              </router-link>
-              <router-link tag="a" to="/profile">
-                <p>profile</p>
-              </router-link>
-              <router-link tag="a" to="/projects">
-                <p>projects</p>
-              </router-link>
-            </div>
-        </div>
-    </header>
+    <div class="flexbox">
+      <div id="div-logo">
+        <img id="img-logo" src="./assets/Clear_Name.png" alt="">
+      </div>
+      <div id="nav-drawer">
+          <input id="nav-input" type="checkbox" class="nav-unshown">
+          <label id="nav-open" for="nav-input"><span></span></label>
+          <label class="nav-unshown" id="nav-close" for="nav-input"></label>
+          <div id="nav-content">
+            <router-link tag="a" to="/login">
+              <p>login</p>
+            </router-link>
+            <router-link tag="a" to="/logout">
+              <p>logout</p>
+            </router-link>
+            <router-link tag="a" to="/profile">
+              <p>profile</p>
+            </router-link>
+            <router-link tag="a" to="/projects">
+              <p>projects</p>
+            </router-link>
+          </div>
+      </div>
+    </div>
 
     <div id="app">
       <router-view/>
@@ -53,16 +56,31 @@ export default class App extends Vue {
   color: #2c3e50;
 }
 
-
-header {
+.flexbox {
   padding:10px;
   background: #52B574;/*背景色*/
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  justify-content: right;
+  -webkit-align-items: stretch;
+  align-items: center;
+  flex-direction: row-reverse; 
+  text-align: center;
 }
 
 p {
   color: #B4B4B4;
   padding-left: 20px;
   font-size: 20px;
+}
+
+#div-logo {
+  flex-grow: 5
+}
+
+#img-logo {
+  height: 30px;
 }
 
 #nav-drawer {
@@ -89,7 +107,7 @@ p {
     height: 3px;/*線の太さ*/
     width: 25px;/*長さ*/
     border-radius: 3px;
-    background: #555;
+    background: #fff;
     display: block;
     content: '';
     cursor: pointer;
