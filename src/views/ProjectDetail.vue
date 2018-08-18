@@ -49,16 +49,14 @@ export default class ProjectDetail extends Vue {
 
         this.project = await Project.findByProjectId(project_id)
         console.log(this.project)
-        if (this.project) {
-            try {
-                this.project_title = this.project.title || ''
-                this.owner_name = this.project.owner.name || ''
-                this.overview = this.project.overview || ''
-                this.need_skills = this.project.need_skills || ''
-            } catch (e) {
-                this.project = null
-            }
-        }
+          try {
+              this.project_title = this.project.title || ''
+              this.owner_name = this.project.owner.name || ''
+              this.overview = this.project.overview || ''
+              this.need_skills = this.project.need_skills || ''
+          } catch (e) {
+              this.project = null
+          }
       } else {
         this.user = null
       }
