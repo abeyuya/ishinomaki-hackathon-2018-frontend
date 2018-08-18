@@ -90,7 +90,7 @@ export default class ProjectCard extends Vue {
   }
 
   .md-card {
-    width: 440px;
+    width: 100%;
     margin: 4px;
     display: inline-block;
     vertical-align: top;
