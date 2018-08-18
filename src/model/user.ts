@@ -2,8 +2,10 @@
 import { db } from '../lib/firebase'
 
 export default class User {
+  /* eslint-disable */
   uid?: string;
   icon_url?: string;
+  /* eslint-enable */
 
   constructor (json: object) {
     Object.assign(this, json)

@@ -1,18 +1,26 @@
 <template>
   <div>
     <button @click="clickGithubSignin">Sign in with Github</button>
-    <button @click="test">check</button>
   </div>
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import { firebase } from '../lib/firebase'
 import User from '../model/user'
 
 const provider = new firebase.auth.GithubAuthProvider()
 
+@Component
 export default class Login extends Vue {
+  created () {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.$router.push('/profile')
+      }
+    })
+  }
+
   async clickGithubSignin (): Promise<void> {
     const result = await firebase.auth().signInWithPopup(provider)
 
@@ -23,11 +31,6 @@ export default class Login extends Vue {
     const { uid, photoURL } = result.user
     const param = { uid, icon_url: photoURL || undefined }
     const user = await User.create(param)
-  }
-
-  test (): void {
-    const user = firebase.auth().currentUser
-    console.log(user)
   }
 }
 </script>
