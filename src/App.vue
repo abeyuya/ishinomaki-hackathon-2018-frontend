@@ -2,7 +2,9 @@
   <div id="container">
     <div class="flexbox">
       <div id="div-logo">
-        <img id="img-logo" src="./assets/Clear_Name.png" alt="">
+        <router-link tag="a" to="/">
+          <img id="img-logo" src="./assets/Clear_Name.png" alt="">
+        </router-link>
       </div>
       <div id="nav-drawer">
           <input id="nav-input" type="checkbox" class="nav-unshown">
@@ -65,7 +67,7 @@ export default class App extends Vue {
   justify-content: right;
   -webkit-align-items: stretch;
   align-items: center;
-  flex-direction: row-reverse; 
+  flex-direction: row-reverse;
   text-align: center;
 }
 
