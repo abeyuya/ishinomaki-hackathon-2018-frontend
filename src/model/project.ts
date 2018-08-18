@@ -62,24 +62,41 @@ export default class Project {
     const ref = await db.collection("projects").doc(project_id)
     const doc = await ref.get()
 
-        if (doc.exists) {
-            console.log("Document data:", doc.data());
-            var data = doc.data()
-            if (data) {
-              return new Project(data)
-            }
-            else {
-              throw new Error('projectが見つかりませんでした')
-            }
-        } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
-            throw new Error('projectが見つかりませんでした')
-        }
+    if (doc.exists) {
+      var data = doc.data()
+      if (data) {
+        return new Project(data)
+      }
+      else {
+        throw new Error('projectが見つかりませんでした')
+      }
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+      throw new Error('projectが見つかりませんでした')
+    }
+  }
 
-    // }).catch(function(error) {
-    //     console.log("Error getting document:", error);
-    //     throw new Error('projectが見つかりませんでした')
-    // });
+  public async removeMember (removeUserUid: string): Promise<void> {
+    if (!this.members) { return }
+    const newMembers = this.members.filter((m) => m.uid !== removeUserUid)
+    await db.collection('projects').doc(this.uid).set({
+      members: newMembers
+    }, { merge: true })
+    return
+  }
+
+  public async addMember (user: User): Promise<void> {
+    const newUserObj = Object.assign({}, user)
+    const newMembers = this.members
+      ? this.members.push(newUserObj)
+      : [newUserObj]
+
+    console.log(this.uid)
+    await db.collection('projects').doc(this.uid).set({
+      members: newMembers
+    }, { merge: true })
+    console.log('2.8')
+    return
   }
 }

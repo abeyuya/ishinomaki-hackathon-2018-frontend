@@ -58,6 +58,7 @@ export default class Projects extends Vue {
   }
 
   onClickJoin (project: Project) {
+    this.user.joinProject(project.uid)
   }
 }
 </script>
