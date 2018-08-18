@@ -1,12 +1,8 @@
 <template>
   <div v-if="user">
-    {{ this.user }}
-    <ul id="projects">
-      <li v-for="project in projects" :key="project.uid">
-        {{ project.title }}
-      </li>
-    </ul>
-    <ProjectCard />
+    <div v-for="project in projects" :key="project.uid">
+      <ProjectCard :project="project" />
+    </div>
   </div>
   <div v-else>
     Loading...
@@ -14,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 import { firebase } from '../lib/firebase'
 import User from '../model/user'
 import ProjectCard from '@/components/ProjectCard.vue'
@@ -39,7 +35,6 @@ export default class Projects extends Vue {
 
         try {
           this.projects = await Project.all()
-          console.log(this.projects)
         } catch (e) {
           this.projects = null
         }

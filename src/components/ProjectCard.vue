@@ -3,23 +3,35 @@
     <md-card>
       <md-card-header>
         <md-card-media>
-          <img src="https://yt3.ggpht.com/a-/ACSszfHx5NjkvUKI-erg6MSo3-MeZgEWOZgFTK8orQ=s900-mo-c-c0xffffffff-rj-k-no">
+          <img :src="project.owner.photo_url">
         </md-card-media>
         <md-card-header-text>
-          <div class="md-title">Project Title</div>
+          <div class="md-title">{{ project.title }}</div>
         </md-card-header-text>
       </md-card-header>
       <md-card-content>
         <h3 class="md-overviewd">概要</h3>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non.
+        {{ project.overview }}
         <h3 class="md-skills">想定している技術</h3>
-        <p>TextTextTextTextTextTextText</p>
-        <md-icon>person</md-icon><md-icon>person</md-icon><md-icon>person</md-icon><md-icon>person</md-icon><md-icon>person</md-icon>
+        <p>{{ project.need_skills }}</p>
+        <div v-for="member in project.members" :key="project.members">
+          <md-icon>person</md-icon>
+        </div>
       </md-card-content>
       <md-button class="md-raised">Join</md-button>
     </md-card>
- </div>
+  </div>
 </template>
+
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import Project from '../model/project'
+
+@Component
+export default class ProjectCard extends Vue {
+  @Prop() private project!: Project;
+}
+</script>
 
 <style lang="scss" scoped>
   .md-card {
