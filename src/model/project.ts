@@ -79,19 +79,20 @@ export default class Project {
   public async removeMember (removeUserUid: string): Promise<void> {
     if (!this.members) { return }
     const newMembers = this.members.filter((m) => m.uid !== removeUserUid)
+    const newMembersObj = newMembers.map(m => Object.assign({}, m))
     await db.collection('projects').doc(this.uid).set({
-      members: newMembers
+      members: newMembersObj
     }, { merge: true })
   }
 
   public async addMember (user: User): Promise<void> {
-    const newUserObj = Object.assign({}, user)
     const newMembers = this.members
-      ? this.members.concat(newUserObj)
-      : [newUserObj]
+      ? this.members.concat(user)
+      : [user]
+    const newMembersObj = newMembers.map(u => Object.assign({}, u))
 
     await db.collection('projects').doc(this.uid).set({
-      members: newMembers
+      members: newMembersObj
     }, { merge: true })
   }
 }
