@@ -1,20 +1,31 @@
 <template>
-  <div v-if="joinEnable">
+  <div v-if="needLogin">
     <md-button
       class="md-raised"
       :disabled="false"
-      @click.native="onClickJoin"
+      @click.native="showNeedLoginPopup"
     >
       Join
     </md-button>
   </div>
   <div v-else>
-    <md-button
-      class="md-raised md-disable"
-      :disabled="true"
-    >
-      Joined
-    </md-button>
+    <div v-if="joinEnable">
+      <md-button
+        class="md-raised"
+        :disabled="false"
+        @click.native="onClickJoin"
+      >
+        Join
+      </md-button>
+    </div>
+    <div v-else>
+      <md-button
+        class="md-raised md-disable"
+        :disabled="true"
+      >
+        Joined
+      </md-button>
+    </div>
   </div>
 </template>
 
@@ -25,6 +36,11 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 export default class ProjectCard extends Vue {
   @Prop() private joinEnable!: boolean;
   @Prop() private onClickJoin!: Function;
+  @Prop() private needLogin!: boolean;
+
+  showNeedLoginPopup () {
+    alert('ログインすると利用できます')
+  }
 }
 </script>
 
