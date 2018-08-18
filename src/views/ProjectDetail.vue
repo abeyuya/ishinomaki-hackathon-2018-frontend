@@ -1,40 +1,25 @@
 <template>
   <div v-if="user">
     <div class="project">
-        <div class="project_detail">
-            <h1 class="title">{{project_title}}</h1>
-            <h2 class="owner_name">{{owner_name}}</h2>
-            <div v-if="joinEnable(project)">
-              <md-button
-                class="join"
-                @click="join"
-              >
-                Join
-              </md-button>
-            </div>
-            <div v-else>
-              todo: joinできないよ
-            </div>
-
-            <h2>概要</h2>
-            <p>{{overview}}</p>
-            <h2>想定している技術</h2>
-            <div class="flexbox">
-              <p class="need_skills">{{need_skills}}</p>
-            </div>
-            <h2>メンバー</h2>
-            <div v-if="joinEnable(project)">
-              <md-button
-                class="join"
-                @click="join"
-              >
-                Join
-              </md-button>
-            </div>
-            <div v-else>
-              todo: joinできないよ
-            </div>
+      <div class="project_detail">
+        <h1 class="title">{{project_title}}</h1>
+        <h2 class="owner_name">{{owner_name}}</h2>
+        <JoinButton
+          :joinEnable="joinEnable()"
+          :onClickJoin="join"
+        />
+        <h2>概要</h2>
+        <p>{{overview}}</p>
+        <h2>想定している技術</h2>
+        <div class="flexbox">
+          <p class="need_skills">{{need_skills}}</p>
         </div>
+        <h2>メンバー</h2>
+        <JoinButton
+          :joinEnable="joinEnable()"
+          :onClickJoin="join"
+        />
+      </div>
     </div>
   </div>
   <div v-else>
@@ -47,9 +32,13 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import { db, firebase } from '../lib/firebase'
 import User from '../model/user'
 import Project from '../model/project'
-import Projects from '@/views/Projects.vue'
+import JoinButton from '@/components/JoinButton.vue'
 
-@Component
+@Component({
+  components: {
+  JoinButton,
+  }
+  })
 export default class ProjectDetail extends Vue {
   user: User | null = null
   project: Project | null = null
@@ -91,25 +80,23 @@ export default class ProjectDetail extends Vue {
     });
   }
 
-  joinEnable (project: Project): boolean {
+  joinEnable (): boolean {
+    console.log('ProjectDetail.joinEnable')
     const user = this.user
     if (!user) { return false }
-    if (!project.members) { return true }
+    if (!this.project || !this.project.members) { return true }
 
-    const exist = project.members.find((m) => m.uid === user.uid)
+    const exist = this.project.members.find((m) => m.uid === user.uid)
+    console.log(exist)
     return !exist
   }
 
-  async join (): Promise<void> {
-    if (this.user === null) {
-      return
-    }
-    if (this.user.uid === undefined) {
-      return alert('ログインしてください')
-    }
+  join () {
+    console.log('ProjectDetail.join')
+    if (!this.user) { return }
     if (!this.project || !this.project.uid) { return }
+
     this.user.joinProject(this.project.uid)
-    console.log('保存しました todo: トーストみたいなので表示したい')
   }
 }
 </script>
