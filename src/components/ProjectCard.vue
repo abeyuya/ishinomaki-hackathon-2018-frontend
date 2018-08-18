@@ -3,33 +3,104 @@
     <md-card>
       <md-card-header>
         <md-card-media>
-          <img src="https://yt3.ggpht.com/a-/ACSszfHx5NjkvUKI-erg6MSo3-MeZgEWOZgFTK8orQ=s900-mo-c-c0xffffffff-rj-k-no">
+          <img :src="project.owner.photo_url">
         </md-card-media>
         <md-card-header-text>
-          <div class="md-title">Project Title</div>
+          <div class="flexbox_title">
+            <div class="md-title">{{ project.title }}</div>
+          </div>
         </md-card-header-text>
       </md-card-header>
       <md-card-content>
         <h3 class="md-overviewd">概要</h3>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non.
+        <p>{{ project.overview }}</p>
         <h3 class="md-skills">想定している技術</h3>
-        <p>TextTextTextTextTextTextText</p>
-        <md-icon>person</md-icon><md-icon>person</md-icon><md-icon>person</md-icon><md-icon>person</md-icon><md-icon>person</md-icon>
+        <p class="need_skills">{{ project.need_skills }}</p>
+        <div v-for="member in project.members" :key="member.uid">
+          <md-icon>{{ member }}</md-icon>
+        </div>
       </md-card-content>
-      <md-button class="md-raised">Join</md-button>
+      <div v-if="joinEnable">
+        <md-button
+          class="md-raised"
+          :disabled="false"
+          @click.native="() => onClickJoin(project)"
+        >
+          Join
+        </md-button>
+      </div>
+      <div v-else>
+        todo: disableボタン
+      </div>
     </md-card>
- </div>
+  </div>
 </template>
 
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import Project from '../model/project'
+
+@Component
+export default class ProjectCard extends Vue {
+  @Prop() private project!: Project;
+  @Prop() private joinEnable!: boolean;
+  @Prop() private onClickJoin!: Function;
+}
+</script>
+
 <style lang="scss" scoped>
+
+  .md-title {
+    color: #52B574;
+    font-weight: 900;
+    font-size: 19px;
+    text-align: center;
+  }
+
+  h3 {
+    color: #52B574;
+    font-weight: 500;
+    margin: 10px 0 0;
+    font-size: 13px;
+  }
+
+  h2.owner_name {
+    font-weight: 200;
+    margin: 10px 0 0;
+  }
+
+  p {
+    color: #B4B4B4;
+  }
+
+  p.need_skills {
+    font-weight: 300;
+    border: 1px solid #B1EAD3;
+    border-style: none none solid none;
+    padding: 0px 0px 10px 0px;
+    width: 100%
+  }
+
+  .flexbox_title {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: stretch;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+  }
+
   .md-card {
     width: 440px;
     margin: 4px;
     display: inline-block;
     vertical-align: top;
+    padding: 0px 0px 20px;
   }
   .md-button {
     color: white;
-    background-color: #FF8856;
+    background-color: #F3933D;
   }
 </style>
