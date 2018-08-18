@@ -27,9 +27,9 @@ export default new Router({
       component: () => import('./views/Login.vue')
     },
     {
-      path: '/input-form',
-      name: 'input-form',
-      component: () => import('./views/input-form.vue')
+      path: '/profile',
+      name: 'profile',
+      component: () => import('./views/Profile.vue')
     }
   ]
 })
