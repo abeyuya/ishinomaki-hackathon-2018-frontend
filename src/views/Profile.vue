@@ -123,6 +123,8 @@ export default class Profile extends Vue {
 
   private async saveProject () {
     if (this.user === null) { return }
+    if (!this.title || this.title === '') { return }
+
     if (this.project === null) {
       const newProject = await this.db.collection('projects').add({
         title: this.title,
