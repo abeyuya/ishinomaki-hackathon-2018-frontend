@@ -78,11 +78,17 @@ export default class Project {
   }
 
   public async removeMember (removeUserUid: string): Promise<void> {
+    console.log('call Project.removeMember 1')
+    console.log(this, removeUserUid)
     if (!this.members) { return }
+    console.log('call Project.removeMember 2')
     const newMembers = this.members.filter((m) => m.uid !== removeUserUid)
+    console.log('call Project.removeMember 3')
+    console.log(`newMembers: ${newMembers}`)
     await db.collection('projects').doc(this.uid).set({
       members: newMembers
     }, { merge: true })
+    console.log('call Project.removeMember 4')
     return
   }
 
@@ -92,11 +98,9 @@ export default class Project {
       ? this.members.concat(newUserObj)
       : [newUserObj]
 
-    console.log(this.uid)
     await db.collection('projects').doc(this.uid).set({
       members: newMembers
     }, { merge: true })
-    console.log('2.8')
     return
   }
 }
