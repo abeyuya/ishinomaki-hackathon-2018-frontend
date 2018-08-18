@@ -1,15 +1,13 @@
 <template>
-  <div v-if="user && projects">
+  <div>
     <div v-for="project in projects" :key="project.uid">
       <ProjectCard
         :project="project"
         :joinEnable="joinEnable(project)"
         :onClickJoin="onClickJoin"
+        :needLogin="needLogin()"
       />
     </div>
-  </div>
-  <div v-else>
-    Loading...
   </div>
 </template>
 
@@ -69,6 +67,10 @@ export default class Projects extends Vue {
     if (!project.uid) { return }
 
     this.user.joinProject(project.uid)
+  }
+
+  needLogin (): boolean {
+    return !this.user
   }
 }
 </script>

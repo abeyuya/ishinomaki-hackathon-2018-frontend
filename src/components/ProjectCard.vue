@@ -23,6 +23,7 @@
       <JoinButton
         :joinEnable="joinEnable"
         :onClickJoin="() => onClickJoin(project)"
+        :needLogin="needLogin"
       />
     </md-card>
   </div>
@@ -42,6 +43,7 @@ export default class ProjectCard extends Vue {
   @Prop() private project!: Project;
   @Prop() private joinEnable!: boolean;
   @Prop() private onClickJoin!: Function;
+  @Prop() private needLogin!: boolean;
 }
 </script>
 
