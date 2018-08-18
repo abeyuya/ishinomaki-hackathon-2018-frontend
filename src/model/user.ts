@@ -5,7 +5,7 @@ export default class User {
   /* eslint-disable */
   uid?: string;
   photo_url?: string;
-  user_name?: string;
+  name?: string;
   nickname?: string;
   role?: string;
   skill?: string;
