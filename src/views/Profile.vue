@@ -5,26 +5,25 @@
         <h3>プロフィール</h3>
         <div class="profile">
             <p>
-            名前 <span><input v-model="name"></span>
-            </p>
-            <p> {{name}} </p>
-            <p>
-            あだ名 <span><input v-model="nickname"></span>
+              名前 <span><input v-model="user_name"></span>
             </p>
             <p>
-            やりたい役職 <span><input v-model="role"></span>
+              あだ名 <span><input v-model="nickname"></span>
             </p>
             <p>
-            スキル <span><input v-model="skill"></span>
+              やりたい役職 <span><input v-model="role"></span>
             </p>
             <p>
-            所属 <span><input v-model="organization"></span>
+              スキル <span><input v-model="skill"></span>
             </p>
             <p>
-            参加したきっかけ <span><input v-model="purpose"></span>
+              所属 <span><input v-model="organization"></span>
             </p>
             <p>
-            その他 <span><textarea v-model="note"></textarea></span>
+              参加したきっかけ <span><input v-model="purpose"></span>
+            </p>
+            <p>
+              その他 <span><textarea v-model="note"></textarea></span>
             </p>
         </div>
         <h3>アイディア</h3>
@@ -60,7 +59,7 @@ export default class Profile extends Vue {
   db = firebase.firestore()
 
   /* eslint-disable */
-  protected name = '';
+  protected user_name = '';
   protected user_id = '';
   protected photo_url = '';
   protected nickname = '';
@@ -79,6 +78,13 @@ export default class Profile extends Vue {
       if (user) {
         this.user = await User.findByUid(user.uid)
         this.photo_url = user.photoURL || ''
+        this.user_name = this.user.name || ''
+        this.nickname = this.user.nickname || ''
+        this.role = this.user.role || ''
+        this.skill = this.user.skill || ''
+        this.organization = this.user.organization || ''
+        this.purpose = this.user.purpose || ''
+        this.note = this.user.note || ''
 
         try {
           this.project = await Project.findByOwner(user.uid)
@@ -110,7 +116,7 @@ export default class Profile extends Vue {
   private async saveProfile () {
     if (this.user === null) { return }
     await this.db.collection('users').doc(`${this.user.uid}`).set({
-      name: this.name,
+      name: this.user_name,
       photo_url: this.photo_url,
       nickname: this.nickname,
       role: this.role,
