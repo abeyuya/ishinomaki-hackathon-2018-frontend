@@ -16,9 +16,9 @@
         <p>{{ project.overview }}</p>
         <h3 class="md-skills">想定している技術</h3>
         <p class="need_skills">{{ project.need_skills }}</p>
-        <div v-for="member in project.members" :key="member.uid">
-          <md-icon>{{ member }}</md-icon>
-        </div>
+        <md-avatar v-for="member in project.members" :key="member.uid">
+          <img :src="member.photo_url" class="member_icon">
+        </md-avatar>
       </md-card-content>
       <JoinButton
         :joinEnable="joinEnable"
