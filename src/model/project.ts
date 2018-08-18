@@ -90,10 +90,8 @@ export default class Project {
       ? this.members.concat(newUserObj)
       : [newUserObj]
 
-    console.log(this.uid)
     await db.collection('projects').doc(this.uid).set({
       members: newMembers
     }, { merge: true })
-    console.log('2.8')
   }
 }
