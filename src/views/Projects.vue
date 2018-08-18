@@ -1,6 +1,9 @@
 <template>
-  <div>
+  <div v-if="user">
     {{ this.user }}
+  </div>
+  <div v-else>
+    Loading...
   </div>
 </template>
 
