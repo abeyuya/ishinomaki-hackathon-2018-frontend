@@ -45,12 +45,10 @@ export default class User {
 
     const newProject = await Project.findByProjectId(projectUid)
     await newProject.addMember(this)
-    console.log('3')
 
     await db.collection('users').doc(this.uid).set({
       join_project_uid: projectUid
     }, { merge: true })
-    console.log('4')
     return
   }
 }

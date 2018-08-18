@@ -89,7 +89,7 @@ export default class Project {
   public async addMember (user: User): Promise<void> {
     const newUserObj = Object.assign({}, user)
     const newMembers = this.members
-      ? this.members.push(newUserObj)
+      ? this.members.concat(newUserObj)
       : [newUserObj]
 
     console.log(this.uid)
