@@ -1,51 +1,42 @@
 <template>
     <div class="user">
-        <h3>プロフィール</h3>
+        <header>
+        </header>
+        <h1>hackage</h1>
+        <img src="https://yt3.ggpht.com/a-/ACSszfHx5NjkvUKI-erg6MSo3-MeZgEWOZgFTK8orQ=s900-mo-c-c0xffffffff-rj-k-no">
         <div class="profile">
-            <p>
-            名前 <span><input v-model="name"></span>
-            </p>
-            <p> {{name}} </p>
-            <p>
-            あだ名 <span><input v-model="nickname"></span>
-            </p>
-            <p>
-            やりたい役職 <span><input v-model="role"></span>
-            </p>
-            <p>
-            スキル <span><input v-model="skill"></span>
-            </p>
-            <p>
-            所属 <span><input v-model="organization"></span>
-            </p>
-            <p>
-            参加したきっかけ <span><input v-model="purpose"></span>
-            </p>
-            <p>
-            その他 <span><textarea v-model="none"></textarea></span>
-            </p>
+            <p>お名前</p>
+            <span><input v-model="name"></span>
+            <p>あだ名</p>
+            <span><input v-model="nickname"></span>
+            <p>やりたい役職</p>
+            <span><input v-model="role"></span>
+            <p>スキル</p>
+            <span><input v-model="skill"></span>
+            <p>所属</p>
+            <span><input v-model="organization"></span>
+            <p>参加したきっかけ</p>
+            <span><input v-model="purpose"></span>
+            <p>その他</p>
+            <span><input v-model="none"></span>
+            <p>アイディアの有無</p>
+            <label><input type="radio" v-model="radio" value="Yes">ある</label>
+            <label><input type="radio" v-model="radio" value="No">ない</label>
+            <p>{{radio}}</p>
         </div>
-        <h3>アイディア</h3>
-        <div class="project">
-            <p>
-                タイトル <span><input v-model="title"></span>
-            </p>
-            <p>
-                概要 <span><textarea v-model="overview"></textarea></span>
-            </p>
-            <p>
-                必要な技術 <span><input v-model="skills"></span>
-            </p>
-        </div>
-        <button @click="join">登録</button>
+        <md-button class="md-raised" @click="join">続ける</md-button>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
+
+Vue.use(VueMaterial)
 
 @Component
-export default class HelloWorld extends Vue {
+export default class Profile extends Vue {
   protected name = '';
   protected nickname = '';
   protected role = '';
@@ -53,8 +44,31 @@ export default class HelloWorld extends Vue {
   protected organization = '';
   protected purpose = '';
   protected none = '';
-  protected title = '';
-  protected overview = '';
-  protected skills = '';
+  protected radio = '';
 }
 </script>
+
+<style lang="scss" scoped>
+  header{
+    height: 4rem;
+    background-color: #33CC66;
+  }
+  h1{
+      color:#33CC66;
+  }
+  span{
+      border-bottom: solid 0.3rem #33CC66;
+  }
+  img{
+    height: 2rem;
+  }
+  p{
+      color:#33CC66;
+      padding-left: 0;
+  }
+  .md-button{
+      background-color:#33CC66;
+      color: white;
+      border-radius: 1rem;
+  }
+</style>
