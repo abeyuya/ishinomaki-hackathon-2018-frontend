@@ -20,31 +20,24 @@
           <md-icon>{{ member }}</md-icon>
         </div>
       </md-card-content>
-      <div v-if="joinEnable">
-        <md-button
-          class="md-raised"
-          :disabled="false"
-          @click.native="() => onClickJoin(project)"
-        >
-          Join
-        </md-button>
-      </div>
-      <div v-else><md-button
-          class="md-raised md-disable"
-          :disabled="true"          
-        >
-          Joined
-        </md-button>
-      </div>
+      <JoinButton
+        :joinEnable="joinEnable"
+        :onClickJoin="() => onClickJoin(project)"
+      />
     </md-card>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
+import JoinButton from '@/components/JoinButton.vue'
 import Project from '../model/project'
 
-@Component
+@Component({
+  components: {
+  JoinButton,
+  }
+  })
 export default class ProjectCard extends Vue {
   @Prop() private project!: Project;
   @Prop() private joinEnable!: boolean;
@@ -103,20 +96,4 @@ export default class ProjectCard extends Vue {
     vertical-align: top;
     padding: 0px 0px 20px;
   }
-  .md-button {
-    color: white;
-    background-color: #F3933D;
-  }
-  .md-disable {
-    color: white;
-    background-color: #b4b4b4;
-    cursor: text;
-  }
-  .md-disable :hover {
-    background-color: #b4b4b4;
-  }
-  .md-button:before{
-    transition: none;
-  }
-
 </style>
