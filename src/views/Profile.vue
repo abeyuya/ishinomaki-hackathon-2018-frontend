@@ -62,6 +62,7 @@ export default class Profile extends Vue {
   /* eslint-disable */
   protected name = '';
   protected user_id = '';
+  protected photo_url = '';
   protected nickname = '';
   protected role = '';
   protected skill = '';
@@ -77,9 +78,14 @@ export default class Profile extends Vue {
     firebase.auth().onAuthStateChanged(async (user) => {
       if (user) {
         this.user = await User.findByUid(user.uid)
+        this.user.uid = user.uid
+        this.photo_url = user.photoURL || ''
 
         try {
           this.project = await Project.findByOwner(user.uid)
+          this.title = this.project.title || ''
+          this.overview = this.project.overview || ''
+          this.need_skills = this.project.need_skills || ''
         } catch (e) {
           this.project = null
         }
@@ -106,6 +112,7 @@ export default class Profile extends Vue {
     if (this.user === null) { return }
     await this.db.collection('users').doc(`${this.user.uid}`).set({
       name: this.name,
+      photo_url: this.photo_url,
       nickname: this.nickname,
       role: this.role,
       skill: this.skill,
