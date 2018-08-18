@@ -59,6 +59,7 @@ export default class Profile extends Vue {
 
   protected name = '';
   protected user_id = '';
+  protected photo_url = '';
   protected nickname = '';
   protected role = '';
   protected skill = '';
@@ -74,6 +75,7 @@ export default class Profile extends Vue {
       if (user) {
         this.user = await User.findByUid(user.uid)
         this.user.uid = user.uid
+        this.photo_url = user.photoURL
       } else {
         this.user = null
       }
@@ -89,6 +91,7 @@ export default class Profile extends Vue {
     }
     this.db.collection('users').doc(`${this.user.uid}`).set({
       name: this.name,
+      photo_url: this.photo_url,
       nickname: this.nickname,
       role: this.role,
       skill: this.skill,
