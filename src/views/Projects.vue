@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import { firebase } from '../lib/firebase'
+import { firebase, db } from '../lib/firebase'
 import User from '../model/user'
 import ProjectCard from '@/components/ProjectCard.vue'
 import Project from '../model/project'
@@ -36,16 +36,23 @@ export default class Projects extends Vue {
     firebase.auth().onAuthStateChanged(async (user) => {
       if (user) {
         this.user = await User.findByUid(user.uid)
-
-        try {
-          this.projects = await Project.all()
-        } catch (e) {
-          this.projects = null
-        }
+        db.collection('users').doc(this.user.uid).onSnapshot((doc) => {
+          const data= doc.data()
+          if (data) {
+            this.user = new User(data)
+          }
+        });
       } else {
         this.user = null
       }
     })
+
+    db.collection('projects').onSnapshot((doc) => {
+      this.projects = doc.docs.map((d) => {
+        console.log(d.data())
+        return new Project(d.data())
+      })
+    });
   }
 
   joinEnable (project: Project): boolean {
