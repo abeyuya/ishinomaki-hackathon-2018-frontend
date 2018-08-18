@@ -18,13 +18,18 @@
           <md-icon>{{ member }}</md-icon>
         </div>
       </md-card-content>
-      <md-button
-        class="md-raised"
-        :disabled="!joinEnable"
-        @click.native="() => onClickJoin(project)"
-      >
-        Join
-      </md-button>
+      <div v-if="joinEnable">
+        <md-button
+          class="md-raised"
+          :disabled="false"
+          @click.native="() => onClickJoin(project)"
+        >
+          Join
+        </md-button>
+      </div>
+      <div v-else="joinEnable">
+        todo: disableボタン
+      </div>
     </md-card>
   </div>
 </template>

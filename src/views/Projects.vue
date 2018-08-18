@@ -49,12 +49,10 @@ export default class Projects extends Vue {
   }
 
   joinEnable (project: Project): boolean {
-    if (!project.members) {
-      return true
-    }
+    if (!project.members) { return true }
 
-    const exist = project.members.find((m) => m.uid === user.uid)
-    return exist ? true : false
+    const exist = project.members.find((m) => m.uid === this.user.uid)
+    return exist ? false : true
   }
 
   onClickJoin (project: Project) {
