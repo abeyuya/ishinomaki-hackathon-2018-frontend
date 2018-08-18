@@ -1,12 +1,12 @@
 <template>
-  <div v-if="user">
-    {{ this.user }}
-    <ul id="projects">
-      <li v-for="project in projects" :key="project.uid">
-        {{ project.title }}
-      </li>
-    </ul>
-    <ProjectCard />
+  <div v-if="user && projects">
+    <div v-for="project in projects" :key="project.uid">
+      <ProjectCard
+        :project="project"
+        :joinEnable="joinEnable(project)"
+        :onClickJoin="onClickJoin"
+      />
+    </div>
   </div>
   <div v-else>
     Loading...
@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 import { firebase } from '../lib/firebase'
 import User from '../model/user'
 import ProjectCard from '@/components/ProjectCard.vue'
@@ -30,7 +30,7 @@ const provider = new firebase.auth.GithubAuthProvider()
 
 export default class Projects extends Vue {
   user: User | null = null
-  projects: Project[] | null = null
+  projects: Project[] | null = null;
 
   created () {
     firebase.auth().onAuthStateChanged(async (user) => {
@@ -39,7 +39,6 @@ export default class Projects extends Vue {
 
         try {
           this.projects = await Project.all()
-          console.log(this.projects)
         } catch (e) {
           this.projects = null
         }
@@ -47,6 +46,19 @@ export default class Projects extends Vue {
         this.user = null
       }
     })
+  }
+
+  joinEnable (project: Project): boolean {
+    if (!project.members) {
+      return true
+    }
+
+    const exist = project.members.find((m) => m.uid === user.uid)
+    return exist ? true : false
+  }
+
+  onClickJoin (project: Project) {
+    this.user.joinProject(project.uid)
   }
 }
 </script>

@@ -130,12 +130,15 @@ export default class Profile extends Vue {
   private async saveProject () {
     if (this.user === null) { return }
     if (this.project === null) {
-      await this.db.collection('projects').add({
+      const newProject = await this.db.collection('projects').add({
         title: this.title,
         overview: this.overview,
         need_skills: this.need_skills,
         owner: Object.assign({}, this.user)
       })
+      await this.db.collection('projects').doc(newProject.id).set({
+        uid: newProject.id
+      }, { merge: true })
     } else {
       await this.db.collection('projects').doc(this.project.uid).set({
         title: this.title,

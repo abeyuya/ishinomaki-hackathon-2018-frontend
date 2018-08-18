@@ -1,5 +1,6 @@
 
 import { db, firebase } from '../lib/firebase'
+import Project from './project'
 
 export default class User {
   /* eslint-disable */
@@ -12,6 +13,7 @@ export default class User {
   organization?: string;
   purpose?: string;
   note?: string;
+  join_project_uid?: string;
   /* eslint-enable */
 
   constructor (json: firebase.firestore.DocumentData) {
@@ -31,5 +33,24 @@ export default class User {
 
     if (!data) { throw new Error('userが見つかりませんでした') }
     return new User(data)
+  }
+
+  public async joinProject (projectUid: string): Promise<void> {
+    if (!this.uid) { return }
+
+    if (this.join_project_uid) {
+      const oldProject = await Project.findByProjectId(this.join_project_uid)
+      await oldProject.removeMember(this.uid)
+    }
+
+    const newProject = await Project.findByProjectId(projectUid)
+    await newProject.addMember(this)
+    console.log('3')
+
+    await db.collection('users').doc(this.uid).set({
+      join_project_uid: projectUid
+    }, { merge: true })
+    console.log('4')
+    return
   }
 }
