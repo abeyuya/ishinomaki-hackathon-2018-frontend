@@ -1,5 +1,5 @@
 
-import { db } from '../lib/firebase'
+import { db, firebase } from '../lib/firebase'
 
 export default class User {
   /* eslint-disable */
@@ -14,7 +14,7 @@ export default class User {
   note?: string;
   /* eslint-enable */
 
-  constructor (json: object) {
+  constructor (json: firebase.firestore.DocumentData) {
     Object.assign(this, json)
   }
 
@@ -23,5 +23,13 @@ export default class User {
     const obj = Object.assign({}, user)
     await db.collection('users').doc(param.uid).set(obj, { merge: true })
     return user
+  }
+
+  public static async findByUid (uid: string): Promise<User> {
+    const doc = await db.collection('users').doc(uid).get()
+    const data = doc.data()
+
+    if (!data) { throw new Error('userが見つかりませんでした') }
+    return new User(data)
   }
 }
