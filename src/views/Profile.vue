@@ -38,7 +38,7 @@
                 必要な技術 <span><input v-model="need_skills"></span>
             </p>
         </div>
-        <button @click="join">登録</button>
+        <button @click="regist">登録</button>
     </div>
   </div>
   <div v-else>
@@ -100,7 +100,7 @@ export default class Profile extends Vue {
     })
   }
 
-  async join (): Promise<void> {
+  async regist (): Promise<void> {
     if (this.user === null) {
       return
     }
