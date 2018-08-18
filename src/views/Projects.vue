@@ -52,7 +52,7 @@ export default class Projects extends Vue {
     if (!project.members) { return true }
 
     const exist = project.members.find((m) => m.uid === this.user.uid)
-    return exist ? true : false
+    return exist ? false : true
   }
 
   onClickJoin (project: Project) {
