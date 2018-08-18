@@ -1,7 +1,11 @@
 <template>
-  <div v-if="user">
+  <div v-if="user && projects">
     <div v-for="project in projects" :key="project.uid">
-      <ProjectCard :project="project" />
+      <ProjectCard
+        :project="project"
+        :joinEnable="true"
+        :onClickJoin="onClickJoin"
+      />
     </div>
   </div>
   <div v-else>
@@ -26,7 +30,7 @@ const provider = new firebase.auth.GithubAuthProvider()
 
 export default class Projects extends Vue {
   user: User | null = null
-  projects: Project[] | null = null
+  projects: Project[] | null = null;
 
   created () {
     firebase.auth().onAuthStateChanged(async (user) => {
@@ -42,6 +46,10 @@ export default class Projects extends Vue {
         this.user = null
       }
     })
+  }
+
+  onClickJoin () {
+    console.log('onClickJoin.props')
   }
 }
 </script>

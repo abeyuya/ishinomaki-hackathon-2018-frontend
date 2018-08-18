@@ -14,11 +14,17 @@
         {{ project.overview }}
         <h3 class="md-skills">想定している技術</h3>
         <p>{{ project.need_skills }}</p>
-        <div v-for="member in project.members" :key="project.members">
-          <md-icon>person</md-icon>
+        <div v-for="member in project.members" :key="member.uid">
+          <md-icon>{{ member }}</md-icon>
         </div>
       </md-card-content>
-      <md-button class="md-raised">Join</md-button>
+      <md-button
+        class="md-raised"
+        :disabled="!joinEnable"
+        @click.native="onClickJoin"
+      >
+        Join
+      </md-button>
     </md-card>
   </div>
 </template>
@@ -30,6 +36,8 @@ import Project from '../model/project'
 @Component
 export default class ProjectCard extends Vue {
   @Prop() private project!: Project;
+  @Prop() private joinEnable!: boolean;
+  @Prop() private onClickJoin!: Function;
 }
 </script>
 
