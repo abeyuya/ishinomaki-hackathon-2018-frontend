@@ -1,8 +1,10 @@
 <template>
+
+  <div v-if="user">
     <div class="user">
-        <header>
+        <!-- <header>
         </header>
-        <h1>hackage</h1>
+        <h1>hackage</h1> -->
         <img src="https://yt3.ggpht.com/a-/ACSszfHx5NjkvUKI-erg6MSo3-MeZgEWOZgFTK8orQ=s900-mo-c-c0xffffffff-rj-k-no">
         <div class="profile">
             <p>お名前</p>
@@ -20,38 +22,128 @@
             <p>その他</p>
             <textarea v-model="none" rows="2" placeholder="石巻ハッカソンに毎年参加してます。Android大好きです"/>
             <p>アイデア名</p>
-            <input type="text" v-model="todomodelname" placeholder="Hackage(ハッケージ)">
+            <input type="text" v-model="title" placeholder="Hackage(ハッケージ)">
             <p>アイデア概要</p>
-            <textarea v-model="todomodelname" rows="2" placeholder="ハッピー+ハッカソン+パッケージでハッカソンをハック"/>
+            <textarea v-model="overview" rows="2" placeholder="ハッピー+ハッカソン+パッケージでハッカソンをハック"/>
             <p>想定している技術</p>
-            <input type="text" v-model="todomodelname" placeholder="Vue.js, Firebase">
+            <input type="text" v-model="need_skills" placeholder="Vue.js, Firebase">
             <!-- <p>アイディアの有無</p>
             <label><input type="radio" v-model="radio" value="Yes">ある</label>
             <label><input type="radio" v-model="radio" value="No">ない</label>
             <p>{{radio}}</p> -->
         </div>
-        <md-button class="md-raised save" @click="join">保存</md-button>
+        <md-button class="md-raised save" @click="regist">登録</md-button>
     </div>
+  </div>
+  <div v-else>
+    Loading...
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import VueMaterial from 'vue-material'
-import 'vue-material/dist/vue-material.min.css'
-
-Vue.use(VueMaterial)
+import { firebase } from '../lib/firebase'
+import User from '../model/user'
+import Project from '../model/project'
 
 @Component
 export default class Profile extends Vue {
-  protected name = '';
+  user: User | null = null
+  project: Project | null = null
+  db = firebase.firestore()
+
+  /* eslint-disable */
+  protected user_name = '';
+  protected user_id = '';
+  protected photo_url = '';
   protected nickname = '';
   protected role = '';
   protected skill = '';
   protected organization = '';
   protected purpose = '';
-  protected none = '';
-  protected radio = '';
+  protected note = '';
+  protected title = '';
+  protected overview = '';
+  protected need_skills = '';
+  /* eslint-enable */
+
+  created () {
+    firebase.auth().onAuthStateChanged(async (user) => {
+      if (user) {
+        this.user = await User.findByUid(user.uid)
+        this.photo_url = user.photoURL || ''
+        this.user_name = this.user.name || ''
+        this.nickname = this.user.nickname || ''
+        this.role = this.user.role || ''
+        this.skill = this.user.skill || ''
+        this.organization = this.user.organization || ''
+        this.purpose = this.user.purpose || ''
+        this.note = this.user.note || ''
+
+        try {
+          this.project = await Project.findByOwner(user.uid)
+          this.title = this.project.title || ''
+          this.overview = this.project.overview || ''
+          this.need_skills = this.project.need_skills || ''
+        } catch (e) {
+          this.project = null
+        }
+      } else {
+        this.user = null
+      }
+    })
+  }
+
+  async regist (): Promise<void> {
+    if (this.user === null) {
+      return
+    }
+    if (this.user.uid === undefined) {
+      return alert('ログインしてください')
+    }
+
+    this.saveProfile()
+    this.saveProject()
+    console.log('保存しました todo: トーストみたいなので表示したい')
+  }
+
+  private async saveProfile () {
+    if (this.user === null) { return }
+    await this.db.collection('users').doc(`${this.user.uid}`).set({
+      name: this.user_name,
+      photo_url: this.photo_url,
+      nickname: this.nickname,
+      role: this.role,
+      skill: this.skill,
+      organization: this.organization,
+      purpose: this.purpose,
+      note: this.note
+    }, { merge: true })
+  }
+
+  private async saveProject () {
+    if (this.user === null) { return }
+    if (this.project === null) {
+      const newProject = await this.db.collection('projects').add({
+        title: this.title,
+        overview: this.overview,
+        need_skills: this.need_skills,
+        owner: Object.assign({}, this.user)
+      })
+      await this.db.collection('projects').doc(newProject.id).set({
+        uid: newProject.id
+      }, { merge: true })
+    } else {
+      await this.db.collection('projects').doc(this.project.uid).set({
+        title: this.title,
+        overview: this.overview,
+        need_skills: this.need_skills,
+        owner: Object.assign({}, this.user)
+      }, { merge: true })
+    }
+  }
 }
+
 </script>
 
 <style lang="scss" scoped>
@@ -87,13 +179,14 @@ export default class Profile extends Vue {
     font-size: 20px;
     text-align: center;
   }
-
   textarea{
     font-size: 16px;
   }
-
   .save{
-      margin-top: 40px;
+    margin-top: 40px;
+  }
+  .user{
+    padding-top: 20px;
   }
   
 </style>
