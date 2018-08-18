@@ -21,7 +21,7 @@ export default class Login extends Vue {
     }
 
     const { uid, photoURL } = result.user
-    const param = { uid, photoURL: photoURL || undefined }
+    const param = { uid, icon_url: photoURL || undefined }
     const user = await User.create(param)
   }
 
