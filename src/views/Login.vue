@@ -1,6 +1,12 @@
 <template>
   <div>
-    <button @click="clickGithubSignin">Sign in with Github</button>
+    <header>
+    </header>
+    <h1>hackage</h1>
+    <md-button class="md-raised" @click="clickGithubSignin">
+      <img src="../assets/octicon.jpg" />
+      Sign in with Github
+    </md-button>
   </div>
 </template>
 
@@ -8,6 +14,10 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { firebase } from '../lib/firebase'
 import User from '../model/user'
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
+
+Vue.use(VueMaterial)
 
 const provider = new firebase.auth.GithubAuthProvider()
 
@@ -34,3 +44,24 @@ export default class Login extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  header{
+    height: 4rem;
+    background-color: #33CC66;
+  }
+  h1{
+    color:#33CC66;
+    font-size: 5rem;
+    margin-top: 10rem;
+  }
+  .md-button{
+    background-color: #33CC66;
+    color: white;
+    border-radius: 1rem;
+    margin-top: 10rem;
+  }
+  img{
+    width: 2rem
+  }
+</style>
