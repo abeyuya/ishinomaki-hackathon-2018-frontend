@@ -7,7 +7,11 @@
         </md-card-media>
         <md-card-header-text>
           <div class="flexbox_title">
-            <div class="md-title">{{ project.title }}</div>
+            <div class="md-title">
+              <router-link tag="a" :to="detailLink()">
+                {{ project.title }}
+              </router-link>
+            </div>
           </div>
         </md-card-header-text>
       </md-card-header>
@@ -44,16 +48,21 @@ export default class ProjectCard extends Vue {
   @Prop() private joinEnable!: boolean;
   @Prop() private onClickJoin!: Function;
   @Prop() private needLogin!: boolean;
+
+  detailLink (): string {
+    return `/projects/detail?project_id=${this.project.uid}`
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 
-  .md-title {
+  .md-title a {
     color: #52B574;
     font-weight: 900;
     font-size: 19px;
     text-align: center;
+    text-decoration: underline;
   }
 
   h3 {
