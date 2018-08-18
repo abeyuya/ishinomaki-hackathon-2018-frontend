@@ -6,6 +6,7 @@
         {{ project.title }}
       </li>
     </ul>
+    <ProjectCard />
   </div>
   <div v-else>
     Loading...
@@ -16,11 +17,17 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { firebase } from '../lib/firebase'
 import User from '../model/user'
+import ProjectCard from '@/components/ProjectCard.vue'
 import Project from '../model/project'
 
 const provider = new firebase.auth.GithubAuthProvider()
 
-@Component
+@Component({
+  components: {
+  ProjectCard,
+  }
+  })
+
 export default class Projects extends Vue {
   user: User | null = null
   projects: Project[] | null = null
