@@ -49,6 +49,5 @@ export default class User {
     await db.collection('users').doc(this.uid).set({
       join_project_uid: projectUid
     }, { merge: true })
-    return
   }
 }
