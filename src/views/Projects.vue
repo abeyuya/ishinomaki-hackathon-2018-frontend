@@ -36,6 +36,12 @@ export default class Projects extends Vue {
     firebase.auth().onAuthStateChanged(async (user) => {
       if (user) {
         this.user = await User.findByUid(user.uid)
+        db.collection('users').doc(this.user.uid).onSnapshot((doc) => {
+          const data= doc.data()
+          if (data) {
+            this.user = new User(data)
+          }
+        });
       } else {
         this.user = null
       }

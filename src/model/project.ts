@@ -77,18 +77,11 @@ export default class Project {
   }
 
   public async removeMember (removeUserUid: string): Promise<void> {
-    console.log('call Project.removeMember 1')
-    console.log(this, removeUserUid)
     if (!this.members) { return }
-    console.log('call Project.removeMember 2')
     const newMembers = this.members.filter((m) => m.uid !== removeUserUid)
-    console.log('call Project.removeMember 3')
-    console.log(`newMembers: ${newMembers}`)
     await db.collection('projects').doc(this.uid).set({
       members: newMembers
     }, { merge: true })
-    console.log('call Project.removeMember 4')
-    return
   }
 
   public async addMember (user: User): Promise<void> {
@@ -100,6 +93,5 @@ export default class Project {
     await db.collection('projects').doc(this.uid).set({
       members: newMembers
     }, { merge: true })
-    return
   }
 }
