@@ -8,7 +8,7 @@
         <img src="https://yt3.ggpht.com/a-/ACSszfHx5NjkvUKI-erg6MSo3-MeZgEWOZgFTK8orQ=s900-mo-c-c0xffffffff-rj-k-no">
         <div class="profile">
             <p>お名前</p>
-            <input type="text" v-model="name" placeholder="石巻太郎">
+            <input type="text" v-model="user_name" placeholder="石巻太郎">
             <p>あだ名</p>
             <input type="text" v-model="nickname" placeholder="ハック">
             <p>やりたい役割</p>
@@ -190,5 +190,5 @@ export default class Profile extends Vue {
   .user{
     padding-top: 20px;
   }
-  
+
 </style>
