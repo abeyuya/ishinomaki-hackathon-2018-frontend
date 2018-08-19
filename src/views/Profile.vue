@@ -103,7 +103,7 @@ export default class Profile extends Vue {
     }
 
     this.saveProfile()
-    this.saveProject()
+    // this.saveProject()
     console.log('保存しました todo: トーストみたいなので表示したい')
   }
 
