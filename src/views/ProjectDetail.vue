@@ -24,11 +24,13 @@
         </md-avatar>
         <div class="member_card_info">
           <h2>あだ名</h2>
-          <p class='member'>{{member.nickname}}</p>
+          <p class="member">{{member.nickname}}</p>
           <h2>所属</h2>
-          <p class='member'>{{member.organization}}</p>
+          <p class="member">{{member.organization}}</p>
           <h2>スキル</h2>
-          <p class='member'>{{member.skill}}</p>
+          <p class="member">{{member.skill}}</p>
+          <h2>やりたい役割</h2>
+          <p class="member">{{member.role}}</p>
         </div>
       </md-card>
       <JoinButton
