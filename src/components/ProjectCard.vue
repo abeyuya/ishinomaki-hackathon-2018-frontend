@@ -26,7 +26,7 @@
         <p class="need_skills">{{ project.need_skills }}</p>
         <h3 class="md-skills">参加中のメンバー</h3>
         <md-avatar v-for="member in project.members" :key="member.uid">
-          <img :src="member.photo_url" class="member_icon">
+          <img :src="member.photo_url || member.icon_url" class="member_icon">
         </md-avatar>
       </md-card-content>
       <JoinButton
