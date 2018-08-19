@@ -2,7 +2,7 @@
   <div class="project">
     <div class="project_detail">
       <md-avatar class="md-large">
-        <img :src="project.owner.photo_url">
+        <img :src="project.owner.photo_url || project.owner.icon_url">
       </md-avatar>
       <h1 class="title">{{project_title}}</h1>
       <h2 class="owner_name">{{owner_name}}</h2>
