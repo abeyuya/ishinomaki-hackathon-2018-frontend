@@ -2,9 +2,11 @@
   <div>
     <header>
     </header>
-    <h1>hackage</h1>
+    <h1>
+      <img src="../assets/Green_Logo.jpg" alt="Hackage"/>
+    </h1>
     <md-button class="md-raised" @click="clickGithubSignin">
-      <img src="../assets/octicon.jpg" />
+      <img id="octcat-icon" src="../assets/octicon.jpg" />
       Sign in with Github
     </md-button>
   </div>
@@ -46,10 +48,6 @@ export default class Login extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  header{
-    height: 4rem;
-    background-color: #33CC66;
-  }
   h1{
     color:#33CC66;
     font-size: 5rem;
@@ -61,7 +59,7 @@ export default class Login extends Vue {
     border-radius: 1rem;
     margin-top: 10rem;
   }
-  img{
+  #octcat-icon {
     width: 2rem
   }
 </style>
