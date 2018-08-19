@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <div class="flexbox">
+    <div class="flexbox nav-header">
       <div id="div-logo">
         <router-link tag="a" to="/">
           <img id="img-logo" src="./assets/Clear_Name.png" alt="">
@@ -56,6 +56,7 @@ export default class App extends Vue {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  padding-top: 50px;/*固定ヘッダーの高さ分下げる*/
 }
 
 .flexbox {
@@ -69,6 +70,13 @@ export default class App extends Vue {
   align-items: center;
   flex-direction: row-reverse;
   text-align: center;
+}
+
+/*固定ヘッダー*/
+.nav-header{
+  position: fixed;
+  width: 100%;
+  z-index: 99999;
 }
 
 p {
