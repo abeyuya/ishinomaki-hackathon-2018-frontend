@@ -13,7 +13,7 @@
           <div class="flexbox_title">
             <div class="md-title">
               <router-link tag="a" :to="detailLink()">
-                {{ project.title }}
+                <p>{{ project.title }}</p>
               </router-link>
             </div>
           </div>
@@ -62,12 +62,17 @@ export default class ProjectCard extends Vue {
 
 <style lang="scss" scoped>
 
-  .md-title a {
+  .md-title {
+    width: 100%;
+  }
+
+  .md-title p {
     color: #52B574;
     font-weight: 900;
     font-size: 19px;
     text-align: center;
     text-decoration: underline;
+    text-align: left;
   }
 
   h3 {
@@ -99,10 +104,11 @@ export default class ProjectCard extends Vue {
     display: flex;
     -webkit-justify-content: center;
     justify-content: center;
-    -webkit-align-items: stretch;
+    -webkit-align-items: center;
     align-items: center;
     text-align: center;
     height: 100%;
+    width: 100%;
   }
 
   .md-card {
