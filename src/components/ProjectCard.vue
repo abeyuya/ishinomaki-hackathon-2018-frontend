@@ -3,7 +3,11 @@
     <md-card>
       <md-card-header>
         <md-card-media>
-          <img :src="project.owner.photo_url">
+          <md-avatar class="md-avatar-icon md-large owner_icon">
+            <img
+              :src="project.owner.photo_url || project.owner.icon_url"
+            />
+          </md-avatar>
         </md-card-media>
         <md-card-header-text>
           <div class="flexbox_title">
@@ -20,6 +24,7 @@
         <p>{{ project.overview }}</p>
         <h3 class="md-skills">想定している技術</h3>
         <p class="need_skills">{{ project.need_skills }}</p>
+        <h3 class="md-skills">参加中のメンバー</h3>
         <md-avatar v-for="member in project.members" :key="member.uid">
           <img :src="member.photo_url" class="member_icon">
         </md-avatar>
@@ -106,5 +111,9 @@ export default class ProjectCard extends Vue {
     display: inline-block;
     vertical-align: top;
     padding: 0px 0px 20px;
+  }
+
+  .owner_icon {
+    margin-top: 10px;
   }
 </style>
