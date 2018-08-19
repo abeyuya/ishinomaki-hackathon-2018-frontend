@@ -18,9 +18,19 @@
         <p class="need_skills">{{need_skills}}</p>
       </div>
       <h2>メンバー</h2>
-      <md-avatar class="member_icon" v-for="member in project.members" :key="member.uid">
-          <img :src="member.photo_url">
-      </md-avatar>
+      <md-card class="member_card" v-for="member in project.members" :key="member.uid">
+        <md-avatar class="member_icon">
+            <img :src="member.photo_url">
+        </md-avatar>
+        <div class="member_card_info">
+          <h2>あだ名</h2>
+          <p class='member'>{{member.nickname}}</p>
+          <h2>所属</h2>
+          <p class='member'>{{member.organization}}</p>
+          <h2>スキル</h2>
+          <p class='member'>{{member.skill}}</p>
+        </div>
+      </md-card>
       <JoinButton
         :joinEnable="joinEnable()"
         :onClickJoin="join"
@@ -117,7 +127,7 @@ export default class ProjectDetail extends Vue {
   h2 {
     color: #52B574;
     font-weight: 300;
-    margin: 50px 0 0;
+    margin: 50px 0 50px 0;
     font-size: 20px;
   }
 
@@ -161,5 +171,27 @@ export default class ProjectDetail extends Vue {
   }
   .member_icon{
     margin-bottom: 2rem;
+  }
+
+  .member_card{
+    display: flex;
+    padding: 10px;
+    margin: 10px;
+
+    .member_icon {
+      width: 20%;
+      height: 100%;
+    }
+
+    .member_card_info {
+      width: 80%;
+    }
+  }
+
+  p.member{
+    font-weight: 300;
+    border: 1px solid #B1EAD3;
+    border-style: none none solid none;
+    padding: 0px 0px 10px 0px;
   }
 </style>
