@@ -57,7 +57,7 @@ export default class Login extends Vue {
     background-color: #33CC66;
     color: white;
     border-radius: 1rem;
-    margin-top: 10rem;
+    margin-top: 5rem;
   }
   #octcat-icon {
     width: 2rem
